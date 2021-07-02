@@ -1,4 +1,4 @@
-## Version 0.6.1
+## Version 0.6.1.1
 * Removes native C dependency and relies solely on ruby
 
 ## Version 0.5.4

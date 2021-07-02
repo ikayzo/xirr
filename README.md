@@ -3,11 +3,13 @@
 
 This is a gem to calculate XIRR on Bisection Method or Newton Method.
 
+This fork removes the C dependency and does everything in ruby. Good for deploying to Heroku where gcc is no longer available at run-time by default.
+
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'xirr'
+    gem 'xirr', git: 'https://github.com/ikayzo/xirr.git', branch: 'master'
 
 And then execute:
 
@@ -19,29 +21,29 @@ Or install it yourself as:
 
 ## Usage
 
-```rb
-include Xirr
-    
-cf = Xirr::Cashflow.new
-cf << Xirr::Transaction.new(-1000,  date: '2014-01-01'.to_date)
-cf << Xirr::Transaction.new(-2000,  date: '2014-03-01'.to_date)
-cf << Xirr::Transaction.new( 4500, date: '2015-12-01'.to_date)
-cf.xirr
-# 0.25159694345042327 # [BigDecimal]
 
-flow = []
-flow << Xirr::Transaction.new(-1000,  date: '2014-01-01'.to_date)
-flow << Xirr::Transaction.new(-2000,  date: '2014-03-01'.to_date)
-flow << Xirr::Transaction.new( 4500, date: '2015-12-01'.to_date)
+    include Xirr
 
-cf = Xirr::Cashflow.new(flow: flow)
-cf.xirr
-```    
+    cf = Cashflow.new
+    cf << Transaction.new(-1000,  date: '2014-01-01'.to_date)
+    cf << Transaction.new(-2000,  date: '2014-03-01'.to_date)
+    cf << Transaction.new( 4500, date: '2015-12-01'.to_date)
+    cf.xirr
+    # 0.25159694345042327 # [BigDecimal]
+
+    flow = []
+    flow << Transaction.new(-1000,  date: '2014-01-01'.to_date)
+    flow << Transaction.new(-2000,  date: '2014-03-01'.to_date)
+    flow << Transaction.new( 4500, date: '2015-12-01'.to_date)
+
+    cf = Cashflow.new flow: flow
+    cf.xirr
+
 
 ## Configuration
 
     # intializer/xirr.rb
-    
+
     Xirr.configure do |config|
       config.eps = '1.0e-12'
       config.days_in_year = 365.25
